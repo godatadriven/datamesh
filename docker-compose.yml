@@ -1,0 +1,69 @@
+version: '3'
+
+services:
+  s3server:
+    profiles: ["all", "demo"]
+    image: localstack/localstack-full:0.12.15
+    ports:
+      - "4563-4584:4563-4584"
+    env_file:
+      - .s3.env
+    volumes:
+      - ./aws.setup.d:/docker-entrypoint-initaws.d
+      - ./data:/initdata
+      - ./.s3-mount:/tmp/localstack
+
+  delta:
+    profiles: ["all", "demo"]
+    image: deltaio/delta-sharing-server:0.2.0
+    command: ["--config", "/opt/docker/conf/delta-sharing.yml"]
+    ports:
+      - 38080:8080
+    env_file:
+      - .delta.env
+    volumes:
+      - ./config/:/opt/docker/conf/
+
+  sparkprepare:
+    profiles: ["all"]
+    build:
+      context: ./docker/aws-spark
+      dockerfile: Dockerfile
+      args:
+        - SPARK_VERSION=3.1.1
+    env_file:
+      - .s3.env
+    environment:
+      - SPARK_NO_DAEMONIZE=true
+    entrypoint:
+      - /usr/bin/tail
+      - "-f"
+      - /dev/null 
+
+  sparkshell:
+    profiles: ["all", "demo"]
+    build:
+      context: ./docker/aws-spark
+      dockerfile: Dockerfile
+      args:
+        - SPARK_VERSION=3.1.1
+    environment:
+      - SPARK_NO_DAEMONIZE=true
+    entrypoint:
+      - /usr/bin/tail
+      - "-f"
+      - /dev/null 
+    volumes:
+      - ./config/:/opt/delta/conf/
+
+  python:
+    profiles: ["all", "demo"]
+    build:
+      context: ./docker/python-delta
+      dockerfile: Dockerfile
+    entrypoint:
+      - /usr/bin/tail
+      - "-f"
+      - /dev/null 
+    volumes:
+      - ./config/:/opt/delta/conf/
