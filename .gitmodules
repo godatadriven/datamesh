@@ -1,3 +1,0 @@
-[submodule "packer-docker-compose"]
-	path = packer-docker-compose
-	url = git@github.com:gglanzani/packer-docker-compose.git

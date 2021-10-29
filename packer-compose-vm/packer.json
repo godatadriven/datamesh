@@ -1,0 +1,32 @@
+{
+  "variables": {
+    "project_id": "",
+    "image_name": ""
+  },
+  "builders": [
+    {
+      "type": "googlecompute",
+      "project_id": "{{user `project_id`}}",
+      "source_image_family": "ubuntu-minimal-2004-lts",
+      "zone": "europe-west1-b",
+      "ssh_username" : "root",
+      "machine_type": "n1-standard-2",
+      "disk_size": "20",
+      "image_name": "{{ user `image_name` }}",
+      "image_labels": {
+        "created": "{{ timestamp }}"
+      }
+    }
+  ],
+  "provisioners": [
+    {
+      "destination": "/tmp/bootstrap",
+      "source": "files",
+      "type": "file"
+    },
+    {
+      "type": "shell",
+      "script": "bootstrap.sh"
+    }
+  ]
+}
