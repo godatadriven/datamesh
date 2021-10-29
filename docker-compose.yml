@@ -1,8 +1,8 @@
-version: '3'
+version: '3.7'
 
 services:
   s3server:
-    profiles: ["all", "demo"]
+    # profiles: ["all", "demo"]
     image: localstack/localstack-full:0.12.15
     ports:
       - "4563-4584:4563-4584"
@@ -14,7 +14,7 @@ services:
       - ./.s3-mount:/tmp/localstack
 
   delta:
-    profiles: ["all", "demo"]
+    # profiles: ["all", "demo"]
     image: deltaio/delta-sharing-server:0.2.0
     command: ["--config", "/opt/docker/conf/delta-sharing.yml"]
     ports:
@@ -24,24 +24,24 @@ services:
     volumes:
       - ./config/:/opt/docker/conf/
 
-  sparkprepare:
-    profiles: ["all"]
-    build:
-      context: ./docker/aws-spark
-      dockerfile: Dockerfile
-      args:
-        - SPARK_VERSION=3.1.1
-    env_file:
-      - .s3.env
-    environment:
-      - SPARK_NO_DAEMONIZE=true
-    entrypoint:
-      - /usr/bin/tail
-      - "-f"
-      - /dev/null 
+  # sparkprepare:
+  #   profiles: ["all"]
+  #   build:
+  #     context: ./docker/aws-spark
+  #     dockerfile: Dockerfile
+  #     args:
+  #       - SPARK_VERSION=3.1.1
+  #   env_file:
+  #     - .s3.env
+  #   environment:
+  #     - SPARK_NO_DAEMONIZE=true
+  #   entrypoint:
+  #     - /usr/bin/tail
+  #     - "-f"
+  #     - /dev/null
 
   sparkshell:
-    profiles: ["all", "demo"]
+    # profiles: ["all", "demo"]
     build:
       context: ./docker/aws-spark
       dockerfile: Dockerfile
@@ -52,18 +52,34 @@ services:
     entrypoint:
       - /usr/bin/tail
       - "-f"
-      - /dev/null 
+      - /dev/null
     volumes:
       - ./config/:/opt/delta/conf/
 
   python:
-    profiles: ["all", "demo"]
+    # profiles: ["all", "demo"]
     build:
       context: ./docker/python-delta
       dockerfile: Dockerfile
     entrypoint:
       - /usr/bin/tail
       - "-f"
-      - /dev/null 
+      - /dev/null
     volumes:
       - ./config/:/opt/delta/conf/
+
+  jupyter:
+    # profiles: ["all", "demo"]
+    image: almondsh/almond:latest
+    env_file:
+      - .s3.env
+    environment:
+      - SPARK_CONF_DEFAULTS=/home/jovyan/work/notebooks/conf/spark.conf
+      - JUPYTER_ENABLE_LAB=true
+    command:
+      - "start-notebook.sh"
+      - "--NotebookApp.token=datamesh"
+    ports:
+      - 10000:8888
+    volumes:
+      - ./notebooks/:/home/jovyan/work/notebooks/

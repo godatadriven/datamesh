@@ -1,0 +1,61 @@
+slug: datamesh-workshop-2021
+id: zbgwyhtzekkv
+type: track
+title: Datamesh workshop 2021
+teaser: Datamesh data sharing explained with examples
+description: |-
+  Sharing data from your datamesh might be challenging.
+
+  **This track demonstrates how to:**
+    - Read shared data with spark
+    - Read shared data with pandas
+    - Understand the delta sharing protocol
+icon: https://cdn.instruqt.com/assets/templates/docker.png
+tags: []
+owner: godatadriven
+developers:
+- krisgeusebroek@godatadriven.com
+private: false
+published: true
+challenges:
+- slug: 01-running-the-services
+  id: 34yftjjznay4
+  type: challenge
+  title: Running all connected services
+  teaser: Learn how to setup a simple environment for delta sharing
+  notes:
+  - type: text
+    contents: |
+      # Learn about Delta Sharing
+      Delta Sharing is the open protocol for sharing data from your datamesh!
+
+      In this first challenge, you'll create a environment to work with. Please wait while we
+      boot a virtual machine for you.
+  assignment: |
+    Use this command to run a set of Docker images using the docker-compose file in
+    this directory:
+
+    ```
+    docker-compose --profile demo up -d
+    ```
+
+    Did you notice the tab with the source code editor, next to
+    the terminal?
+
+    To complete the
+    challenge, press **Check**."
+  tabs:
+  - title: Terminal
+    type: terminal
+    hostname: instruqt-datamesh
+  - title: Editor
+    type: code
+    hostname: instruqt-datamesh
+    path: /opt/docker-compose
+  - title: Jupyter
+    type: service
+    hostname: instruqt-datamesh
+    port: 10000
+  difficulty: basic
+  timelimit: 600
+checksum: "14050023349699315086"

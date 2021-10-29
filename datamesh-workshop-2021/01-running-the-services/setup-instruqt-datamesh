@@ -1,0 +1,4 @@
+#!/bin/bash
+echo "Running challenge setup script on host instruqt-datamesh"
+
+exit 0
