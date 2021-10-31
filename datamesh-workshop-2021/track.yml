@@ -1,15 +1,18 @@
 slug: datamesh-workshop-2021
 id: zbgwyhtzekkv
 type: track
-title: Datamesh workshop 2021
-teaser: Datamesh data sharing explained with examples
+title: Data Mesh workshop 2021
+teaser: Data Mesh data sharing explained with examples
 description: |-
-  Sharing data from your datamesh might be challenging.
+  Sharing data from your Data Mesh might be challenging.
 
-  **This track demonstrates how to:**
+  **This track demonstrates:**
+    - How our environment is setup
+    - The concept of Delta Sharing
+    - A quick word on the Delta format
+    - The Delta Sharing protocol
     - Read shared data with spark
-    - Read shared data with pandas
-    - Understand the delta sharing protocol
+    - Read shared data with python/pandas
 icon: https://cdn.instruqt.com/assets/templates/docker.png
 tags: []
 owner: godatadriven
@@ -18,32 +21,33 @@ developers:
 private: false
 published: true
 challenges:
-- slug: 01-running-the-services
+- slug: 01-the-environment
   id: 34yftjjznay4
   type: challenge
-  title: Running all connected services
-  teaser: Learn how to setup a simple environment for delta sharing
+  title: Check all running services
+  teaser: Verify our simple environment for delta sharing
   notes:
   - type: text
     contents: |
       # Learn about Delta Sharing
-      Delta Sharing is the open protocol for sharing data from your datamesh!
+      Delta Sharing is the open protocol for sharing data from your Data Mesh!
 
-      In this first challenge, you'll create a environment to work with. Please wait while we
+      In this first challenge, you'll verify our environment to work with. Please wait while we
       boot a virtual machine for you.
   assignment: |
-    Use this command to run a set of Docker images using the docker-compose file in
-    this directory:
+    Use this command to check all services are running smoothly:
 
     ```
-    docker-compose --profile demo up -d
+    docker ps
     ```
 
-    Did you notice the tab with the source code editor, next to
-    the terminal?
+    Did you also notice the tab called `Jupyter`. We will need them in the next challenges.
+
+    We expect 5 docker containers to show here.
+    In the next challenge we will investigate those further.
 
     To complete the
-    challenge, press **Check**."
+    challenge, press **Check**.
   tabs:
   - title: Terminal
     type: terminal
@@ -58,4 +62,62 @@ challenges:
     port: 10000
   difficulty: basic
   timelimit: 600
-checksum: "14050023349699315086"
+- slug: 02-the-environment-in-depth
+  type: challenge
+  title: Explain all running services
+  teaser: Explanation of our simple environment
+  notes:
+  - type: text
+    contents: |
+      # Learn about Delta Sharing
+      Delta Sharing is the open protocol for sharing data from your Data Mesh!
+
+      In this second challenge, we'll explain our environment more in-depth.
+  assignment: |
+    Next to the terminal tab you might notice the tab called `Jupyter`. 
+    We will use this a lot in the next challenges.
+
+    Go to this `Jupyter` tab and fill in the requested token `datamesh`.
+
+    
+    To go o the next challenge, press **Check**.
+  tabs:
+  - title: Terminal
+    type: terminal
+    hostname: instruqt-datamesh
+  - title: Jupyter
+    type: service
+    hostname: instruqt-datamesh
+    port: 10000
+  difficulty: basic
+  timelimit: 600
+# - slug: 03-the-environment
+#   type: challenge
+#   title: 
+#   teaser: 
+#   notes:
+#   - type: text
+#     contents: |
+#       # Learn about Delta Sharing
+#       Delta Sharing is the open protocol for sharing data from your Data Mesh!
+
+#       TBD
+#   assignment: |
+#     TBD
+
+#     To finish the challenge, press **Check**.
+#   tabs:
+#   - title: Terminal
+#     type: terminal
+#     hostname: instruqt-datamesh
+#   - title: Editor
+#     type: code
+#     hostname: instruqt-datamesh
+#     path: /opt/docker-compose
+#   - title: Jupyter
+#     type: service
+#     hostname: instruqt-datamesh
+#     port: 10000
+#   difficulty: basic
+#   timelimit: 600
+checksum: "17967952614355944526"

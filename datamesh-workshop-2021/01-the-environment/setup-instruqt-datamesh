@@ -1,0 +1,11 @@
+#!/bin/bash
+echo "Running challenge setup script on host instruqt-datamesh"
+
+#Wait for the docker compose environment to finish starting
+until [ $(docker ps -q | wc -l) -eq 5 ]
+do
+    echo "Waiting for docker compose environment to boot.."
+    sleep 1
+done
+
+exit 0

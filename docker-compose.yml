@@ -22,7 +22,7 @@ services:
     env_file:
       - .delta.env
     volumes:
-      - ./config/:/opt/docker/conf/
+      - ./config/delta/:/opt/docker/conf/
 
   # sparkprepare:
   #   profiles: ["all"]
@@ -54,7 +54,7 @@ services:
       - "-f"
       - /dev/null
     volumes:
-      - ./config/:/opt/delta/conf/
+      - ./config/sharing/:/opt/delta/conf/
 
   python:
     # profiles: ["all", "demo"]
@@ -66,20 +66,21 @@ services:
       - "-f"
       - /dev/null
     volumes:
-      - ./config/:/opt/delta/conf/
+      - ./config/sharing/:/opt/delta/conf/
 
   jupyter:
     # profiles: ["all", "demo"]
     image: almondsh/almond:latest
-    env_file:
-      - .s3.env
     environment:
-      - SPARK_CONF_DEFAULTS=/home/jovyan/work/notebooks/conf/spark.conf
+      - SPARK_CONF_DEFAULTS=/opt/spark/conf/spark.conf
       - JUPYTER_ENABLE_LAB=true
     command:
       - "start-notebook.sh"
       - "--NotebookApp.token=datamesh"
+      - "--NotebookApp.notebook_dir=/home/jovyan/work/notebooks"
     ports:
       - 10000:8888
     volumes:
       - ./notebooks/:/home/jovyan/work/notebooks/
+      - ./config/sharing/:/opt/delta/conf/
+      - ./config/spark/:/opt/spark/conf/
