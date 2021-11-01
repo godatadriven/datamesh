@@ -24,21 +24,21 @@ services:
     volumes:
       - ./config/delta/:/opt/docker/conf/
 
-  # sparkprepare:
-  #   profiles: ["all"]
-  #   build:
-  #     context: ./docker/aws-spark
-  #     dockerfile: Dockerfile
-  #     args:
-  #       - SPARK_VERSION=3.1.1
-  #   env_file:
-  #     - .s3.env
-  #   environment:
-  #     - SPARK_NO_DAEMONIZE=true
-  #   entrypoint:
-  #     - /usr/bin/tail
-  #     - "-f"
-  #     - /dev/null
+  sparkprepare:
+    # profiles: ["all"]
+    build:
+      context: ./docker/aws-spark
+      dockerfile: Dockerfile
+      args:
+        - SPARK_VERSION=3.1.1
+    env_file:
+      - .s3.env
+    environment:
+      - SPARK_NO_DAEMONIZE=true
+    entrypoint:
+      - /usr/bin/tail
+      - "-f"
+      - /dev/null
 
   sparkshell:
     # profiles: ["all", "demo"]

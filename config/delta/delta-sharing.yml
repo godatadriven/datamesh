@@ -4,10 +4,14 @@ version: 1
 shares:
 - name: "demo"
   schemas:
-  - name: "shareddata"
+  - name: "world"
     tables:
     - name: "cities"
       location: "s3://demodata/silver/world/cities"
+  - name: "sales"
+    tables:
+    - name: "sample"
+      location: "s3://demodata/silver/sales"
 # Set the host name that the server will use
 host: "0.0.0.0"
 # Set the port that the server will listen on

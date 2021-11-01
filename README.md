@@ -37,6 +37,24 @@ docker exec -ti datamesh_s3server_1 /bin/bash
 awslocal s3 cp s3://demodata/silver/world/cities /initdata/cities --recursive
 ```
 
+#### Sales data preparation
+
+```spark
+val salesDF = spark.read.options(Map("header"->"true", "inferSchema"->"true")).csv("s3://demodata/rawdata/sales/sample.csv")
+salesDF.show(truncate=false)
+salesDF.printSchema()
+
+val partitionedSalesDF = (salesDF
+  .withColumn("ORDER_TIMESTAMP", to_timestamp(col("ORDERDATE"), "M/d/yyyy H:mm"))
+  .withColumn("year", date_format(col("ORDER_TIMESTAMP"), "yyyy"))
+  .withColumn("month", date_format(col("ORDER_TIMESTAMP"), "MM"))
+  .withColumn("day", date_format(col("ORDER_TIMESTAMP"), "dd"))
+)
+
+partitionedSalesDF.write.partitionBy("year", "month", "day").format("delta").save("s3://demodata/silver/sales/")
+
+```
+
 ## Setup Demo
 
 ```bash
