@@ -8,8 +8,6 @@ description: |-
 
   **This track demonstrates:**
     - How our environment is setup
-    - The concept of Delta Sharing
-    - A quick word on the Delta format
     - The Delta Sharing protocol
     - Read shared data with spark
     - Read shared data with python/pandas
@@ -25,7 +23,7 @@ challenges:
   id: 34yftjjznay4
   type: challenge
   title: Check all running services
-  teaser: Verify our simple environment for delta sharing
+  teaser: Verify our environment for delta sharing
   notes:
   - type: text
     contents: |
@@ -63,16 +61,16 @@ challenges:
       # Learn about Delta Sharing
       Delta Sharing is the open protocol for sharing data from your Data Mesh!
 
-      In this second challenge, we'll explain our environment more in-depth.
+      In this second challenge, we'll explain our environment in more depth.
   assignment: |
     Next to the terminal tab you might notice the tab called `Jupyter`.
     We will use this a lot in the next challenges.
 
     Go to this `Jupyter` tab and fill in the requested token `datamesh`.
 
-    Open the notebook called `02-the-environment-in-depth`
+    Open the notebook called `02-the-environment-in-depth` and go through the contents.
 
-    To go to the next challenge, press **Check**.
+    When you are finished with the notebook, press **Check** to go to the next challenge.
   tabs:
   - title: Terminal
     type: terminal
@@ -87,19 +85,19 @@ challenges:
   id: jyzsbj06qbzx
   type: challenge
   title: The delta sharing protocol notebook
-  teaser: Explore the delta sharing protocol in a jupyter notebook
+  teaser: Explore the delta sharing protocol in a jupyter notebook.
   notes:
   - type: text
     contents: |
       # Learn about Delta Sharing
       Delta Sharing is the open protocol for sharing data from your Data Mesh!
 
-      We will explore the Delta sharing protocol from a jupyter notebook
+      We will explore the Delta sharing protocol from a Jupyter notebook.
   assignment: |2
 
-    Open the notebook called `03-the-protocol-notebook`
+    Open the notebook called `03-the-protocol-notebook` and go through the contents.
 
-    To finish the challenge, press **Check**.
+    When you are finished with the notebook, press **Check** to go to the next challenge.
   tabs:
   - title: Jupyter
     type: service
@@ -111,21 +109,25 @@ challenges:
   id: 3efccw3lfjvi
   type: challenge
   title: The delta sharing protocol with curl
-  teaser: Explore the delta sharing protocol in a terminal
+  teaser: Explore the delta sharing protocol in a terminal.
   notes:
   - type: text
     contents: |
       # Learn about Delta Sharing
       Delta Sharing is the open protocol for sharing data from your Data Mesh!
 
-      We will explore the Delta sharing protocol from a terminal
+      We will explore the Delta Sharing protocol from a terminal.
   assignment: |2
 
     Open the terminal tab
 
-    Try this example curl request to explore the protocol
+    Try this example curl request to explore the protocol:
     ```
-    curl -s -H 'Authorization: Bearer authTokenDeltaSharing432' localhost:38080/delta-sharing/shares | jq
+    curl -s \
+         -X GET \
+         -H 'Authorization: Bearer authTokenDeltaSharing432' \
+         localhost:38080/delta-sharing/shares \
+      | jq
     ```
 
     Other example paths:
@@ -151,12 +153,12 @@ challenges:
       # Learn about Delta Sharing
       Delta Sharing is the open protocol for sharing data from your Data Mesh!
 
-      We will read data with python from a jupyter notebook
+      We will read data with python from a Jupyter notebook.
   assignment: |2
 
-    Open the notebook called `05-read-python-notebook`
+    Open the notebook called `05-read-python-notebook` and go through the contents.
 
-    To finish the challenge, press **Check**.
+    When you are finished with the notebook, press **Check** to go to the next challenge.
   tabs:
   - title: Jupyter
     type: service
@@ -175,7 +177,7 @@ challenges:
       # Learn about Delta Sharing
       Delta Sharing is the open protocol for sharing data from your Data Mesh!
 
-      We will read data with python
+      We will read data with python.
   assignment: |2
 
     Start a python interpreter from within the python docker container
@@ -221,9 +223,9 @@ challenges:
       We will read data with spark from a jupyter notebook
   assignment: |2
 
-    Open the notebook called `07-read-spark-notebook`
+    Open the notebook called `07-read-spark-notebook` and go through the contents.
 
-    To finish the challenge, press **Check**.
+    When you are finished with the notebook, press **Check** to go to the next challenge.
   tabs:
   - title: Jupyter
     type: service
@@ -242,7 +244,7 @@ challenges:
       # Learn about Delta Sharing
       Delta Sharing is the open protocol for sharing data from your Data Mesh!
 
-      We will read data with spark
+      We will read data with spark.
   assignment: |2
 
     Start a spark shell from within the spark docker container
@@ -281,11 +283,12 @@ challenges:
       # Learn about Delta Sharing
       Delta Sharing is the open protocol for sharing data from your Data Mesh!
 
-      We will play around with this environment
+      We will play around with this environment.
   assignment: |2
 
     Play around with the two datasets in a notebook or a terminal.
     Or explore how everything comes together based on the code in the `Editor` tab.
+    The `COMPOSE_README.md` file has a description on how all services are tied together.
 
     To finish the challenge, press **Check**.
   tabs:
@@ -302,4 +305,4 @@ challenges:
     path: /opt/docker-compose/instruqt-datamesh-vm
   difficulty: basic
   timelimit: 1800
-checksum: "15163184730059519583"
+checksum: "1210764767930241240"

@@ -11,7 +11,7 @@ endif
 
 build: check-variables
 	mkdir -p files/compose/${IMAGE_NAME}; \
-	cp ${DOCKER_COMPOSE_PATH}/.*.env ${DOCKER_COMPOSE_PATH}/*.yml files/compose/${IMAGE_NAME}/; \
+	cp ${DOCKER_COMPOSE_PATH}/.*.env ${DOCKER_COMPOSE_PATH}/*.yml ${DOCKER_COMPOSE_PATH}/COMPOSE_README.md files/compose/${IMAGE_NAME}/; \
 	cp -R ${DOCKER_COMPOSE_PATH}/aws.setup.d ${DOCKER_COMPOSE_PATH}/config ${DOCKER_COMPOSE_PATH}/data ${DOCKER_COMPOSE_PATH}/docker ${DOCKER_COMPOSE_PATH}/notebooks files/compose/${IMAGE_NAME}/; \
 	packer build -var 'project_id=${PROJECT}' -var 'image_name=${IMAGE_NAME}' packer.json; \
 	rm -rf files/compose/${IMAGE_NAME};
@@ -19,7 +19,7 @@ build: check-variables
 
 force-build: check-variables
 	mkdir -p files/compose/${IMAGE_NAME}; \
-	cp ${DOCKER_COMPOSE_PATH}/.*.env ${DOCKER_COMPOSE_PATH}/*.yml files/compose/${IMAGE_NAME}/; \
+	cp ${DOCKER_COMPOSE_PATH}/.*.env ${DOCKER_COMPOSE_PATH}/*.yml ${DOCKER_COMPOSE_PATH}/COMPOSE_README.md files/compose/${IMAGE_NAME}/; \
 	cp -R ${DOCKER_COMPOSE_PATH}/aws.setup.d ${DOCKER_COMPOSE_PATH}/config ${DOCKER_COMPOSE_PATH}/data ${DOCKER_COMPOSE_PATH}/docker ${DOCKER_COMPOSE_PATH}/notebooks files/compose/${IMAGE_NAME}/; \
 	packer build -force -var 'project_id=${PROJECT}' -var 'image_name=${IMAGE_NAME}' packer.json; \
 	rm -rf files/compose/${IMAGE_NAME};
