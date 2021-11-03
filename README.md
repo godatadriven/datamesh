@@ -4,7 +4,7 @@ Material for the Data Mesh presentation at GoDataFest 2021
 
 ## Presentation
 
-[Keynote presentation for he workshop](./presentation/delta-sharing-workshop.pdf)
+[Presentation for the workshop](./presentation/delta-sharing-workshop.pdf)
 
 ## Setup
 
