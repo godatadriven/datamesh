@@ -12,6 +12,16 @@ shares:
     tables:
     - name: "sample"
       location: "s3://demodata/silver/sales"
+- name: "azurite_demo"
+  schemas:
+  - name: "azworld"
+    tables:
+    - name: "cities"
+      location: "wasb://world@devstoreaccount1.blob.azserver:10000/cities/cities"
+  - name: "azsales"
+    tables:
+    - name: "sample"
+      location: "wasb://sales@devstoreaccount1.blob.azserver:10000/sales"
 # Set the host name that the server will use
 host: "0.0.0.0"
 # Set the port that the server will listen on

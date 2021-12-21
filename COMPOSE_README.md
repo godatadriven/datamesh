@@ -104,4 +104,4 @@ No special environment settings are done.
 | :-------- | :--------- | :---------- |
 | ./notebooks/ | /home/jovyan/work/notebooks/ | Mounted the notebooks |
 | ./config/sharing/ | /opt/delta/conf/ | Mounting the delta.profile file |
-| ./config/spark/ | /opt/spark/conf/ | Mounting the spark dfault configs |
+| ./config/spark/ | /opt/spark/conf/ | Mounting the spark default configs |

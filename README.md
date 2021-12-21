@@ -17,7 +17,7 @@ The docker containers and notebooks can also be run locally with docker-compose
 docker-compose up --build
 ```
 
-Go to [Jupyter Lab](http://localhost:10000) to see the notebooks.
+Go to [Jupyter Lab](http://localhost:18888) to see the notebooks.
 
 #### Data preparation
 

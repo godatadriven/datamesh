@@ -57,4 +57,9 @@
   <value>org.apache.hadoop.fs.s3a.S3AFileSystem</value>
 </property>
 
+<property>
+  <name>fs.azure.account.key.devstoreaccount1.blob.azserver:10000</name>
+  <value>Eby8vdM02xNOcqFlqUwJPLlmEtlCDXJ1OUzFT50uSRZ6IFsuFq2UVErCz4I6tq/K1SZFPTOtr/KBHBeksoGMGw==</value>
+</property>
+
 </configuration>

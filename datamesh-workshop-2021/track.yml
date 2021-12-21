@@ -78,7 +78,7 @@ challenges:
   - title: Jupyter
     type: service
     hostname: instruqt-datamesh
-    port: 10000
+    port: 18888
   difficulty: basic
   timelimit: 600
 - slug: 03-the-protocol-notebook
@@ -102,7 +102,7 @@ challenges:
   - title: Jupyter
     type: service
     hostname: instruqt-datamesh
-    port: 10000
+    port: 18888
   difficulty: basic
   timelimit: 600
 - slug: 04-the-protocol-terminal
@@ -163,7 +163,7 @@ challenges:
   - title: Jupyter
     type: service
     hostname: instruqt-datamesh
-    port: 10000
+    port: 18888
   difficulty: basic
   timelimit: 600
 - slug: 06-read-python-terminal
@@ -230,7 +230,7 @@ challenges:
   - title: Jupyter
     type: service
     hostname: instruqt-datamesh
-    port: 10000
+    port: 18888
   difficulty: basic
   timelimit: 600
 - slug: 08-read-spark-terminal
@@ -298,7 +298,7 @@ challenges:
   - title: Jupyter
     type: service
     hostname: instruqt-datamesh
-    port: 10000
+    port: 18888
   - title: Editor
     type: code
     hostname: instruqt-datamesh

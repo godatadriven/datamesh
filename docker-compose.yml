@@ -12,10 +12,40 @@ services:
       - ./aws.setup.d:/docker-entrypoint-initaws.d
       - ./data:/initdata
       - ./.s3-mount:/tmp/localstack
+    networks:
+      datamesh:
+
+  azserver:
+    image: mcr.microsoft.com/azure-storage/azurite:3.15.0
+    command:
+      - "azurite"
+      - "-l"
+      - "/workspace"
+      - "-d"
+      - "/workspace/logs/debug.log"
+      - "--blobHost"
+      - "0.0.0.0"
+      - "--queueHost"
+      - "0.0.0.0"
+      - "--tableHost"
+      - "0.0.0.0"
+      - "--loose"
+    ports:
+      - 10000:10000
+      - 10001:10001
+      - 10002:10002
+    env_file:
+      - .azure.env
+    volumes:
+      - ./.az-mount/workspace:/workspace
+    networks:
+      datamesh:
+        aliases:
+          - devstoreaccount1.blob.azserver
 
   delta:
     # profiles: ["all", "demo"]
-    image: deltaio/delta-sharing-server:0.2.0
+    image: deltaio/delta-sharing-server:0.3.0
     command: ["--config", "/opt/docker/conf/delta-sharing.yml"]
     ports:
       - 38080:8080
@@ -23,6 +53,8 @@ services:
       - .delta.env
     volumes:
       - ./config/delta/:/opt/docker/conf/
+    networks:
+      datamesh:
 
   sparkprepare:
     # profiles: ["all"]
@@ -39,6 +71,8 @@ services:
       - /usr/bin/tail
       - "-f"
       - /dev/null
+    networks:
+      datamesh:
 
   sparkshell:
     # profiles: ["all", "demo"]
@@ -55,18 +89,19 @@ services:
       - /dev/null
     volumes:
       - ./config/sharing/:/opt/delta/conf/
+    networks:
+      datamesh:
 
   python:
     # profiles: ["all", "demo"]
     build:
       context: ./docker/python-delta
       dockerfile: Dockerfile
-    entrypoint:
-      - /usr/bin/tail
-      - "-f"
-      - /dev/null
+    tty: true
     volumes:
       - ./config/sharing/:/opt/delta/conf/
+    networks:
+      datamesh:
 
   jupyter:
     # profiles: ["all", "demo"]
@@ -79,8 +114,13 @@ services:
       - "--NotebookApp.token=datamesh"
       - "--NotebookApp.notebook_dir=/home/jovyan/work/notebooks"
     ports:
-      - 10000:8888
+      - 18888:8888
     volumes:
       - ./notebooks/:/home/jovyan/work/notebooks/
       - ./config/sharing/:/opt/delta/conf/
       - ./config/spark/:/opt/spark/conf/
+    networks:
+      datamesh:
+
+networks:
+  datamesh:
