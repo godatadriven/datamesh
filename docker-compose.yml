@@ -30,6 +30,10 @@ services:
       - "--tableHost"
       - "0.0.0.0"
       - "--loose"
+      - "--cert"
+      - "/ssl/server.pem"
+      - "--key"
+      - "/ssl/private_key.pem"
     ports:
       - 10000:10000
       - 10001:10001
@@ -38,10 +42,12 @@ services:
       - .azure.env
     volumes:
       - ./.az-mount/workspace:/workspace
+      - ./config/ssl:/ssl
     networks:
       datamesh:
         aliases:
           - devstoreaccount1.blob.azserver
+          # - devstoreaccount1.dfs.azserver
 
   delta:
     # profiles: ["all", "demo"]
@@ -52,7 +58,8 @@ services:
     env_file:
       - .delta.env
     volumes:
-      - ./config/delta/:/opt/docker/conf/
+      - ./config/delta/:/opt/docker/conf
+      - ./config/ssl/:/opt/docker/ssl
     networks:
       datamesh:
 
@@ -89,6 +96,7 @@ services:
       - /dev/null
     volumes:
       - ./config/sharing/:/opt/delta/conf/
+      - ./config/ssl:/opt/spark/ssl
     networks:
       datamesh:
 
@@ -97,9 +105,12 @@ services:
     build:
       context: ./docker/python-delta
       dockerfile: Dockerfile
+    environment:
+      - SSL_CERT_FILE=/opt/spark/ssl/server.pem
     tty: true
     volumes:
       - ./config/sharing/:/opt/delta/conf/
+      - ./config/ssl:/opt/spark/ssl
     networks:
       datamesh:
 
@@ -109,16 +120,19 @@ services:
     environment:
       - SPARK_CONF_DEFAULTS=/opt/spark/conf/spark.conf
       - JUPYTER_ENABLE_LAB=true
+      - SSL_CERT_FILE=/opt/spark/ssl/server.pem
     command:
       - "start-notebook.sh"
       - "--NotebookApp.token=datamesh"
       - "--NotebookApp.notebook_dir=/home/jovyan/work/notebooks"
     ports:
       - 18888:8888
+      - 14040:4040
     volumes:
       - ./notebooks/:/home/jovyan/work/notebooks/
       - ./config/sharing/:/opt/delta/conf/
       - ./config/spark/:/opt/spark/conf/
+      - ./config/ssl:/opt/spark/ssl
     networks:
       datamesh:
 

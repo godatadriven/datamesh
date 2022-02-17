@@ -25,6 +25,49 @@ There are 3 volume mounts for the s3 server:
 | ./data | /initdata | Demo datasets |
 | ./.s3-mount | /tmp/localstack | Internal localstack directory |
 
+### Azure
+
+#### SSL setup
+/usr/local/Cellar/openssl\@1.1/1.1.1l_1/bin/
+
+##### Create certificate and key
+```bash
+openssl req -newkey rsa:2048 -x509 -nodes -keyout private_key.pem -new -out server.pem -sha256 -days 365 -addext "subjectAltName=IP:127.0.0.1,DNS.1:devstoreaccount1,DNS.2:devstoreaccount1.azserver,DNS.3:devstoreaccount1.blob.azserver,DNS.4:devstoreaccount1.dfs.azserver" -subj "/C=NL/ST=Utrecht/L=Utrecht/O=Datamesh workshop Ltd/OU=OU/CN=azserver"
+```
+
+##### Check private key
+```bash
+openssl rsa -in private_key.pem -check
+```
+
+##### Check cert
+
+```bash
+openssl x509 -in server.pem -text -noout
+```
+
+##### Add to Java keystore
+```bash
+keytool -importcert -alias azure_storage_cert -file server.pem -keystore azure_truststore
+password: `changeit`
+```
+
+##### Combine with default java keystore
+```bash
+cp azure_truststore combined_truststore
+keytool -importkeystore \
+-srckeystore $JAVA_HOME/lib/security/cacerts \
+-destkeystore combined_truststore \
+-srcstoretype PKCS12 \
+-deststoretype PKCS12 \
+-srcstorepass changeit \
+-deststorepass changeit \
+-v
+```
+
+#### Environment
+
+#### Volumes
 ### delta
 
 The delta container is the reference implementation server for the Delt sharing protocol.
