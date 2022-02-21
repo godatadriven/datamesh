@@ -52,18 +52,7 @@ keytool -importcert -alias azure_storage_cert -file server.pem -keystore azure_t
 password: `changeit`
 ```
 
-##### Combine with default java keystore
-```bash
-cp azure_truststore combined_truststore
-keytool -importkeystore \
--srckeystore $JAVA_HOME/lib/security/cacerts \
--destkeystore combined_truststore \
--srcstoretype PKCS12 \
--deststoretype PKCS12 \
--srcstorepass changeit \
--deststorepass changeit \
--v
-```
+copy this file (`azure_truststore`) to the docker build directory of the almond-with-azurite-certs container
 
 #### Environment
 

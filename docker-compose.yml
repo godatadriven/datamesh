@@ -21,8 +21,8 @@ services:
       - "azurite"
       - "-l"
       - "/workspace"
-      - "-d"
-      - "/workspace/logs/debug.log"
+      # - "-d"
+      # - "/workspace/logs/debug.log"
       - "--blobHost"
       - "0.0.0.0"
       - "--queueHost"
@@ -47,7 +47,6 @@ services:
       datamesh:
         aliases:
           - devstoreaccount1.blob.azserver
-          # - devstoreaccount1.dfs.azserver
 
   delta:
     # profiles: ["all", "demo"]
@@ -116,7 +115,10 @@ services:
 
   jupyter:
     # profiles: ["all", "demo"]
-    image: almondsh/almond:latest
+    # image: almondsh/almond:latest
+    build:
+      context: ./docker/almond-with-azurite-certs
+      dockerfile: Dockerfile
     environment:
       - SPARK_CONF_DEFAULTS=/opt/spark/conf/spark.conf
       - JUPYTER_ENABLE_LAB=true
