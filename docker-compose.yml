@@ -21,8 +21,8 @@ services:
       - "azurite"
       - "-l"
       - "/workspace"
-      # - "-d"
-      # - "/workspace/logs/debug.log"
+      - "-d"
+      - "/workspace/logs/debug.log"
       - "--blobHost"
       - "0.0.0.0"
       - "--queueHost"
@@ -65,7 +65,7 @@ services:
   sparkprepare:
     # profiles: ["all"]
     build:
-      context: ./docker/aws-spark
+      context: ./docker/spark-dataprep
       dockerfile: Dockerfile
       args:
         - SPARK_VERSION=3.1.1
@@ -73,10 +73,15 @@ services:
       - .s3.env
     environment:
       - SPARK_NO_DAEMONIZE=true
+      - SSL_CERT_FILE=/opt/spark/ssl/server.pem
+      - REQUESTS_CA_BUNDLE=/opt/spark/ssl/server.pem
     entrypoint:
       - /usr/bin/tail
       - "-f"
       - /dev/null
+    volumes:
+      - ./data:/initdata
+      - ./config/ssl:/opt/spark/ssl
     networks:
       datamesh:
 

@@ -88,3 +88,24 @@ docker exec -ti datamesh_s3server_1 /bin/bash
 awslocal s3 cp s3://demodata/silver/sales /initdata/sales --recursive
 ```
 
+### Copy data also to Azurite
+
+#### Create the blob containers
+
+```bash
+az storage container create -n world --connection-string "DefaultEndpointsProtocol=https;AccountName=devstoreaccount1;AccountKey=Eby8vdM02xNOcqFlqUwJPLlmEtlCDXJ1OUzFT50uSRZ6IFsuFq2UVErCz4I6tq/K1SZFPTOtr/KBHBeksoGMGw==;BlobEndpoint=https://devstoreaccount1.blob.azserver:10000;QueueEndpoint=https://devstoreaccount1.blob.azserver:10001;"
+```
+
+```bash
+az storage container create -n sales --connection-string "DefaultEndpointsProtocol=https;AccountName=devstoreaccount1;AccountKey=Eby8vdM02xNOcqFlqUwJPLlmEtlCDXJ1OUzFT50uSRZ6IFsuFq2UVErCz4I6tq/K1SZFPTOtr/KBHBeksoGMGw==;BlobEndpoint=https://devstoreaccount1.blob.azserver:10000;QueueEndpoint=https://devstoreaccount1.blob.azserver:10001;"
+```
+
+### Upload the files
+
+```bash
+az storage blob upload-batch -d world --connection-string "DefaultEndpointsProtocol=https;AccountName=devstoreaccount1;AccountKey=Eby8vdM02xNOcqFlqUwJPLlmEtlCDXJ1OUzFT50uSRZ6IFsuFq2UVErCz4I6tq/K1SZFPTOtr/KBHBeksoGMGw==;BlobEndpoint=https://devstoreaccount1.blob.azserver:10000;QueueEndpoint=https://devstoreaccount1.blob.azserver:10001;" -s /initdata/cities/ --destination-path cities/cities/
+```
+
+```bash
+az storage blob upload-batch -d sales --connection-string "DefaultEndpointsProtocol=https;AccountName=devstoreaccount1;AccountKey=Eby8vdM02xNOcqFlqUwJPLlmEtlCDXJ1OUzFT50uSRZ6IFsuFq2UVErCz4I6tq/K1SZFPTOtr/KBHBeksoGMGw==;BlobEndpoint=https://devstoreaccount1.blob.azserver:10000;QueueEndpoint=https://devstoreaccount1.blob.azserver:10001;" -s /initdata/sales/ --destination-path sales/
+```
