@@ -1,0 +1,6 @@
+version: "3"
+virtualmachines:
+- name: instruqt-datamesh-multicloud
+  image: instruqt-godatadriven/instruqt-datamesh-multicloud-vm
+  shell: /bin/bash
+  machine_type: n1-standard-1

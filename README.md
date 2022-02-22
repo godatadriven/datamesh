@@ -1,6 +1,6 @@
 # Data Mesh
 
-Material for the Data Mesh presentation at GoDataFest 2021
+Material for the Data Mesh presentation at GoDataFest 2021 and the Codebreakfast handson session in March 2022
 
 ## Presentation
 
@@ -29,7 +29,7 @@ The prepared datasets are described in [data/DATA_PREP.md](./data/DATA_PREP.md)
 
 ```bash
 cd packer-compose-vm
-make PROJECT=instruqt-godatadriven IMAGE_NAME=instruqt-datamesh-vm force-build
+make PROJECT=instruqt-godatadriven IMAGE_NAME=instruqt-datamesh-multicloud-vm force-build
 ```
 
 #### Publish the track
