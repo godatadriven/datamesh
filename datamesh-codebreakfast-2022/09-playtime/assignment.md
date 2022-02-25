@@ -21,7 +21,7 @@ tabs:
   port: 18888
 - title: Editor
   type: code
-  hostname: instruqt-datamesh
+  hostname: instruqt-datamesh-multicloud
   path: /opt/docker-compose/instruqt-datamesh-multicloud-vm
 difficulty: basic
 timelimit: 1800

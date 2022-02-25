@@ -34,5 +34,8 @@ Other example paths:
 - shares/demo/schemas
 - shares/demo/schemas/world/tables
 - shares/demo/schemas/world/tables/cities/query (POST)
+- shares/azurite_demo/schemas
+- shares/azurite_demo/schemas/azworld/tables
+- shares/azurite_demo/schemas/azworld/tables/cities/query (POST)
 
 To finish the challenge, press **Check**.

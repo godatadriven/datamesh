@@ -18,14 +18,10 @@ shares:
     tables:
     - name: "cities"
       location: "wasbs://world@devstoreaccount1.blob.azserver:10000/cities/cities"
-    # - name: "cities"
-    #   location: "abfss://world@devstoreaccount1.dfs.azserver:10000/cities/cities"
   - name: "azsales"
     tables:
     - name: "sample"
       location: "wasbs://sales@devstoreaccount1.blob.azserver:10000/sales"
-    # - name: "sample"
-    #   location: "abfss://sales@devstoreaccount1.dfs.azserver:10000/sales"
 # Set the host name that the server will use
 host: "0.0.0.0"
 # Set the port that the server will listen on
