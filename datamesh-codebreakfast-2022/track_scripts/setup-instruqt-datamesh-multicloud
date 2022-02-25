@@ -1,0 +1,13 @@
+#!/bin/bash
+echo "Running track setup script on host instruqt-datamesh-multicloud"
+
+Wait for the Instruqt host bootstrap to finish
+until [ -f /opt/instruqt/bootstrap/host-bootstrap-completed ]
+do
+    sleep 1
+done
+
+echo "Finished track setup on host instruqt-datamesh-multicloud"
+
+exit 0
+

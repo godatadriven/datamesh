@@ -1,6 +1,9 @@
 <?xml version="1.0"?>
 <?xml-stylesheet type="text/xsl" href="configuration.xsl"?>
 
+<!--
+Configure datamesh S3 connection
+-->
 <configuration>
 <property>
   <name>fs.s3.awsAccessKeyId</name>
@@ -57,4 +60,26 @@
   <value>org.apache.hadoop.fs.s3a.S3AFileSystem</value>
 </property>
 
+<!--
+Configure datamesh Azure blobstorage connection
+-->
+<property>
+  <name>fs.azure.account.key.devstoreaccount1.blob.azserver:10000</name>
+  <value>Eby8vdM02xNOcqFlqUwJPLlmEtlCDXJ1OUzFT50uSRZ6IFsuFq2UVErCz4I6tq/K1SZFPTOtr/KBHBeksoGMGw==</value>
+</property>
+
+<property>
+  <name>fs.azure.storage.client.logging</name>
+  <value>true</value>
+</property>
+
+<!--
+Configure datamesh Azure ADLS storage connection
+-->
+<!--
+<property>
+  <name>fs.azure.account.key.devstoreaccount1.dfs.azserver:10000</name>
+  <value>Eby8vdM02xNOcqFlqUwJPLlmEtlCDXJ1OUzFT50uSRZ6IFsuFq2UVErCz4I6tq/K1SZFPTOtr/KBHBeksoGMGw==</value>
+</property>
+-->
 </configuration>

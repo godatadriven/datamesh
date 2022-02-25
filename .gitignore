@@ -131,3 +131,4 @@ dmypy.json
 
 # Misc
 .s3-mount
+.az-mount/workspace/logs/*.log

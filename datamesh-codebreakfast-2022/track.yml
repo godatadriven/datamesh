@@ -1,0 +1,25 @@
+slug: datamesh-codebreakfast-2022
+id: oxqw0kqm5q7u
+type: track
+title: Data Mesh codebreakfast 2022
+teaser: Data Mesh data sharing with delta-sharing explained with examples
+description: |-
+  Sharing data from your Data Mesh might be challenging.
+
+  **This track demonstrates:**
+    - How our environment is setup
+    - The Delta Sharing protocol
+    - Read shared data with spark
+      - from AWS
+      - from Azure
+    - Read shared data with python/pandas
+      - from AWS
+      - from Azure
+icon: https://cdn.instruqt.com/assets/templates/docker.png
+tags: []
+owner: godatadriven
+developers:
+- krisgeusebroek@godatadriven.com
+private: false
+published: false
+checksum: "4577564050888040440"

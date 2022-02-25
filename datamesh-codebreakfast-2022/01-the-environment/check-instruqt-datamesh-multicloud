@@ -1,0 +1,27 @@
+#!/bin/bash
+echo "Running challenge check script on host instruqt-datamesh-multicloud"
+
+if ! docker container ls | grep -q "instruqt-datamesh-multicloud-vm_jupyter"; then
+    fail-message "There is no running container 'instruqt-datamesh-multicloud-vm_jupyter'. Did you run it?"
+    exit 1
+fi
+
+if ! docker container ls | grep -q "deltaio/delta-sharing-server:0.3.0"; then
+    fail-message "There is no running container 'deltaio/delta-sharing-server:0.2.0'. Did you run it?"
+    exit 1
+fi
+
+if ! docker container ls | grep -q "localstack/localstack-full:0.12.15"; then
+    fail-message "There is no running container 'localstack/localstack-full:0.12.15'. Did you run it?"
+    exit 1
+fi
+
+if ! docker container ls | grep -q "instruqt-datamesh-multicloud-vm_sparkshell"; then
+    fail-message "There is no running container 'instruqt-datamesh-multicloud-vm_sparkshell'. Did you run it?"
+    exit 1
+fi
+
+if ! docker container ls | grep -q "instruqt-datamesh-multicloud-vm_python"; then
+    fail-message "There is no running container 'instruqt-datamesh-multicloud-vm_python'. Did you run it?"
+    exit 1
+fi

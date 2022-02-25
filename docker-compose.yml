@@ -12,22 +12,60 @@ services:
       - ./aws.setup.d:/docker-entrypoint-initaws.d
       - ./data:/initdata
       - ./.s3-mount:/tmp/localstack
+    networks:
+      datamesh:
+
+  azserver:
+    image: mcr.microsoft.com/azure-storage/azurite:3.15.0
+    command:
+      - "azurite"
+      - "-l"
+      - "/workspace"
+      - "-d"
+      - "/workspace/logs/debug.log"
+      - "--blobHost"
+      - "0.0.0.0"
+      - "--queueHost"
+      - "0.0.0.0"
+      - "--tableHost"
+      - "0.0.0.0"
+      - "--loose"
+      - "--cert"
+      - "/ssl/server.pem"
+      - "--key"
+      - "/ssl/private_key.pem"
+    ports:
+      - 10000:10000
+      - 10001:10001
+      - 10002:10002
+    env_file:
+      - .azure.env
+    volumes:
+      - ./.az-mount/workspace:/workspace
+      - ./config/ssl:/ssl
+    networks:
+      datamesh:
+        aliases:
+          - devstoreaccount1.blob.azserver
 
   delta:
     # profiles: ["all", "demo"]
-    image: deltaio/delta-sharing-server:0.2.0
+    image: deltaio/delta-sharing-server:0.3.0
     command: ["--config", "/opt/docker/conf/delta-sharing.yml"]
     ports:
       - 38080:8080
     env_file:
       - .delta.env
     volumes:
-      - ./config/delta/:/opt/docker/conf/
+      - ./config/delta/:/opt/docker/conf
+      - ./config/ssl/:/opt/docker/ssl
+    networks:
+      datamesh:
 
   sparkprepare:
     # profiles: ["all"]
     build:
-      context: ./docker/aws-spark
+      context: ./docker/spark-dataprep
       dockerfile: Dockerfile
       args:
         - SPARK_VERSION=3.1.1
@@ -35,10 +73,17 @@ services:
       - .s3.env
     environment:
       - SPARK_NO_DAEMONIZE=true
+      - SSL_CERT_FILE=/opt/spark/ssl/server.pem
+      - REQUESTS_CA_BUNDLE=/opt/spark/ssl/server.pem
     entrypoint:
       - /usr/bin/tail
       - "-f"
       - /dev/null
+    volumes:
+      - ./data:/initdata
+      - ./config/ssl:/opt/spark/ssl
+    networks:
+      datamesh:
 
   sparkshell:
     # profiles: ["all", "demo"]
@@ -55,32 +100,48 @@ services:
       - /dev/null
     volumes:
       - ./config/sharing/:/opt/delta/conf/
+      - ./config/ssl:/opt/spark/ssl
+    networks:
+      datamesh:
 
   python:
     # profiles: ["all", "demo"]
     build:
       context: ./docker/python-delta
       dockerfile: Dockerfile
-    entrypoint:
-      - /usr/bin/tail
-      - "-f"
-      - /dev/null
+    environment:
+      - SSL_CERT_FILE=/opt/spark/ssl/server.pem
+    tty: true
     volumes:
       - ./config/sharing/:/opt/delta/conf/
+      - ./config/ssl:/opt/spark/ssl
+    networks:
+      datamesh:
 
   jupyter:
     # profiles: ["all", "demo"]
-    image: almondsh/almond:latest
+    # image: almondsh/almond:latest
+    build:
+      context: ./docker/almond-with-azurite-certs
+      dockerfile: Dockerfile
     environment:
       - SPARK_CONF_DEFAULTS=/opt/spark/conf/spark.conf
       - JUPYTER_ENABLE_LAB=true
+      - SSL_CERT_FILE=/opt/spark/ssl/server.pem
     command:
       - "start-notebook.sh"
       - "--NotebookApp.token=datamesh"
       - "--NotebookApp.notebook_dir=/home/jovyan/work/notebooks"
     ports:
-      - 10000:8888
+      - 18888:8888
+      - 14040:4040
     volumes:
       - ./notebooks/:/home/jovyan/work/notebooks/
       - ./config/sharing/:/opt/delta/conf/
       - ./config/spark/:/opt/spark/conf/
+      - ./config/ssl:/opt/spark/ssl
+    networks:
+      datamesh:
+
+networks:
+  datamesh:

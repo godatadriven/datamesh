@@ -18,7 +18,7 @@ docker exec -ti datamesh_sparkprepare_1 /bin/bash
 ```
 
 ```bash
-spark-shell --packages io.delta:delta-core_2.12:1.0.0,io.delta:delta-sharing-spark_2.12:0.1.0 --conf spark.hadoop.fs.s3a.access.key=${AWS_ACCESS_KEY_ID} --conf spark.hadoop.fs.s3a.secret.key=${AWS_SECRET_ACCESS_KEY} --conf spark.hadoop.fs.s3a.impl=org.apache.hadoop.fs.s3a.S3AFileSystem --conf spark.hadoop.fs.s3a.endpoint="${AWS_SERVER}:${AWS_PORT}" --conf spark.hadoop.fs.s3a.connection.ssl.enabled=false --conf spark.hadoop.fs.s3a.path.style.access=true --conf spark.hadoop.fs.s3.impl=org.apache.hadoop.fs.s3a.S3AFileSystem
+spark-shell --packages io.delta:delta-core_2.12:1.0.1,io.delta:delta-sharing-spark_2.12:0.4.0 --conf spark.hadoop.fs.s3a.access.key=${AWS_ACCESS_KEY_ID} --conf spark.hadoop.fs.s3a.secret.key=${AWS_SECRET_ACCESS_KEY} --conf spark.hadoop.fs.s3a.impl=org.apache.hadoop.fs.s3a.S3AFileSystem --conf spark.hadoop.fs.s3a.endpoint="${AWS_SERVER}:${AWS_PORT}" --conf spark.hadoop.fs.s3a.connection.ssl.enabled=false --conf spark.hadoop.fs.s3a.path.style.access=true --conf spark.hadoop.fs.s3.impl=org.apache.hadoop.fs.s3a.S3AFileSystem
 ```
 
 ```spark
@@ -88,3 +88,24 @@ docker exec -ti datamesh_s3server_1 /bin/bash
 awslocal s3 cp s3://demodata/silver/sales /initdata/sales --recursive
 ```
 
+### Copy data also to Azurite
+
+#### Create the blob containers
+
+```bash
+az storage container create -n world --connection-string "DefaultEndpointsProtocol=https;AccountName=devstoreaccount1;AccountKey=Eby8vdM02xNOcqFlqUwJPLlmEtlCDXJ1OUzFT50uSRZ6IFsuFq2UVErCz4I6tq/K1SZFPTOtr/KBHBeksoGMGw==;BlobEndpoint=https://devstoreaccount1.blob.azserver:10000;QueueEndpoint=https://devstoreaccount1.blob.azserver:10001;"
+```
+
+```bash
+az storage container create -n sales --connection-string "DefaultEndpointsProtocol=https;AccountName=devstoreaccount1;AccountKey=Eby8vdM02xNOcqFlqUwJPLlmEtlCDXJ1OUzFT50uSRZ6IFsuFq2UVErCz4I6tq/K1SZFPTOtr/KBHBeksoGMGw==;BlobEndpoint=https://devstoreaccount1.blob.azserver:10000;QueueEndpoint=https://devstoreaccount1.blob.azserver:10001;"
+```
+
+### Upload the files
+
+```bash
+az storage blob upload-batch -d world --connection-string "DefaultEndpointsProtocol=https;AccountName=devstoreaccount1;AccountKey=Eby8vdM02xNOcqFlqUwJPLlmEtlCDXJ1OUzFT50uSRZ6IFsuFq2UVErCz4I6tq/K1SZFPTOtr/KBHBeksoGMGw==;BlobEndpoint=https://devstoreaccount1.blob.azserver:10000;QueueEndpoint=https://devstoreaccount1.blob.azserver:10001;" -s /initdata/cities/ --destination-path cities/cities/
+```
+
+```bash
+az storage blob upload-batch -d sales --connection-string "DefaultEndpointsProtocol=https;AccountName=devstoreaccount1;AccountKey=Eby8vdM02xNOcqFlqUwJPLlmEtlCDXJ1OUzFT50uSRZ6IFsuFq2UVErCz4I6tq/K1SZFPTOtr/KBHBeksoGMGw==;BlobEndpoint=https://devstoreaccount1.blob.azserver:10000;QueueEndpoint=https://devstoreaccount1.blob.azserver:10001;" -s /initdata/sales/ --destination-path sales/
+```
