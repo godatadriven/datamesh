@@ -31,27 +31,27 @@ There are 3 volume mounts for the s3 server:
 
 ##### Create certificate and key
 ```bash
-openssl req -newkey rsa:2048 -x509 -nodes -keyout private_key.pem -new -out server.pem -sha256 -days 365 -addext "subjectAltName=IP:127.0.0.1,DNS.1:devstoreaccount1,DNS.2:devstoreaccount1.azserver,DNS.3:devstoreaccount1.blob.azserver,DNS.4:devstoreaccount1.dfs.azserver" -subj "/C=NL/ST=Utrecht/L=Utrecht/O=Datamesh workshop Ltd/OU=OU/CN=azserver"
+openssl req -newkey rsa:2048 -x509 -nodes -keyout az_private_key.pem -new -out az_server.pem -sha256 -days 365 -addext "subjectAltName=IP:127.0.0.1,DNS.1:devstoreaccount1,DNS.2:devstoreaccount1.azserver,DNS.3:devstoreaccount1.blob.azserver,DNS.4:devstoreaccount1.dfs.azserver" -subj "/C=NL/ST=Utrecht/L=Utrecht/O=Datamesh workshop Ltd/OU=OU/CN=azserver"
 ```
 
 ##### Check private key
 ```bash
-openssl rsa -in private_key.pem -check
+openssl rsa -in az_private_key.pem -check
 ```
 
 ##### Check cert
 
 ```bash
-openssl x509 -in server.pem -text -noout
+openssl x509 -in az_server.pem -text -noout
 ```
 
 ##### Add to Java keystore
 ```bash
-keytool -importcert -alias azure_storage_cert -file server.pem -keystore azure_truststore
+keytool -importcert -alias azure_storage_cert -file az_server.pem -keystore datamesh_truststore -storetype PKCS12
 password: `changeit`
 ```
 
-copy this file (`azure_truststore`) to the docker build directory of the almond-with-azurite-certs container
+copy this file (`datamesh_truststore`) to the docker build directory of the almond-with-storage-certs container
 
 #### Environment
 
@@ -64,7 +64,54 @@ No special environment settings are used.
 |  ./.az-mount/workspace | /workspace | Data storage |
 |  ./config | /ssl | SSL certs |
 
-The server.pem and private_key.pem config are mounted here.  
+The az_server.pem and az_private_key.pem config are mounted here.  
+
+### GCS
+
+#### SSL setup
+
+##### Create certificate and key
+```bash
+openssl req -newkey rsa:2048 -x509 -nodes -keyout gcs_private_key.pem -new -out gcs_server.pem -sha256 -days 365 -addext "subjectAltName=IP:127.0.0.1,DNS.1:gcsserver,DNS.2:storage.googleapis.com" -subj "/C=NL/ST=Utrecht/L=Utrecht/O=Datamesh workshop Ltd/OU=OU/CN=gcsserver"
+```
+
+Combine the 2 server certificates into a single pem file
+```bash
+cat az_server.pem gcs_server.pem > server.pem
+
+```
+
+##### Check private key
+```bash
+openssl rsa -in gcs_private_key.pem -check
+```
+
+##### Check cert
+
+```bash
+openssl x509 -in gcs_server.pem -text -noout
+```
+
+##### Add to Java keystore
+```bash
+keytool -importcert -alias gcs_storage_cert -file gcs_server.pem -keystore datamesh_truststore -storetype PKCS12
+password: `changeit`
+```
+
+copy this file (`datamesh_truststore`) to the docker build directory of the almond-with-datamesh-certs container
+
+#### Environment
+
+No special environment settings are used.
+
+#### Volumes
+
+| Directory | Mountpoint | Description |
+| :-------- | :--------- | :---------- |
+|  ./config | /ssl | SSL certs |
+
+The gcs_server.pem and gcs_private_key.pem config are mounted here.  
+
 
 ### delta
 

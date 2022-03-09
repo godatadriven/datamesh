@@ -11,7 +11,7 @@ docker exec -ti datamesh_sparkshell_1 /bin/bash
 We need to add our azure ssl certificates to a java keystore. we do this by combining our azure_keystore with the default java keystore
 
 ```bash
-cp /opt/spark/ssl/azure_truststore /tmp/combined_truststore
+cp /opt/spark/ssl/datamesh_truststore /tmp/combined_truststore
 ```
 
 ```bash

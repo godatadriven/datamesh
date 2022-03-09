@@ -1,0 +1,19 @@
+[
+  {
+    "httpRequest": {
+      "path": "/token"
+    },
+    "httpResponse": {
+      "statusCode": 200,
+      "headers": {
+        "content-type": [
+          "application/json"
+        ]
+      },
+      "body": {
+        "type": "JSON",
+        "json": "{\"access_token\": \"ya29.AHES6ZRN3-HlhAPya30GnW_bHSb_QtAS08i85nHq39HE3C2LTrCARA\", \"expires_in\":3599, \"token_type\": \"Bearer\" }"
+      }
+    }
+  }
+]

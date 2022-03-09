@@ -22,6 +22,16 @@ shares:
     tables:
     - name: "sample"
       location: "wasbs://sales@devstoreaccount1.blob.azserver:10000/sales"
+- name: "gcs_demo"
+  schemas:
+  - name: "gcsworld"
+    tables:
+    - name: "cities"
+      location: "gs://storage-bucket/cities"
+  - name: "gcssales"
+    tables:
+    - name: "sample"
+      location: "gs://storage-bucket/sales"
 # Set the host name that the server will use
 host: "0.0.0.0"
 # Set the port that the server will listen on

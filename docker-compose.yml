@@ -1,6 +1,21 @@
 version: '3.7'
 
 services:
+  mockserver:
+    image: jamesdbloom/mockserver:mockserver-5.11.1
+    ports:
+      - 1080:1080
+      - 1081:1081
+    environment:
+      - LOG_LEVEL=DEBUG
+      - SERVER_PORT="1080,1081"
+      - MOCKSERVER_WATCH_INITIALIZATION_JSON=true
+      - MOCKSERVER_INITIALIZATION_JSON_PATH=/mockserver.init.d/mockserver-initialization.json
+    volumes:
+      - ./.mockserver.init.d:/mockserver.init.d
+    networks:
+      datamesh:
+
   s3server:
     # profiles: ["all", "demo"]
     image: localstack/localstack-full:0.12.15
@@ -31,9 +46,9 @@ services:
       - "0.0.0.0"
       - "--loose"
       - "--cert"
-      - "/ssl/server.pem"
+      - "/ssl/az_server.pem"
       - "--key"
-      - "/ssl/private_key.pem"
+      - "/ssl/az_private_key.pem"
     ports:
       - 10000:10000
       - 10001:10001
@@ -48,9 +63,26 @@ services:
         aliases:
           - devstoreaccount1.blob.azserver
 
+  gcsserver:
+    # image: fsouza/fake-gcs-server
+    image: fake-kris:local
+    ports:
+      - 4443:4443
+      - 443:4443
+    command: -external-url "https://gcsserver:4443" -cert-location /etc/ssl/certs/ca-certificates.crt -private-key-location /etc/ssl/certs/server.key
+    volumes:
+      - ./data/cities:/data/storage-bucket/cities
+      - ./data/sales:/data/storage-bucket/sales
+      - ./config/ssl/gcs_server.pem:/etc/ssl/certs/ca-certificates.crt
+      - ./config/ssl/gcs_private_key.pem:/etc/ssl/certs/server.key
+    networks:
+      datamesh:
+        aliases:
+          - storage.googleapis.com
+
   delta:
     # profiles: ["all", "demo"]
-    image: deltaio/delta-sharing-server:0.3.0
+    image: deltaio/delta-sharing-server:0.4.0
     command: ["--config", "/opt/docker/conf/delta-sharing.yml"]
     ports:
       - 38080:8080
@@ -88,7 +120,7 @@ services:
   sparkshell:
     # profiles: ["all", "demo"]
     build:
-      context: ./docker/aws-spark
+      context: ./docker/multicloud-spark
       dockerfile: Dockerfile
       args:
         - SPARK_VERSION=3.1.1
@@ -122,7 +154,7 @@ services:
     # profiles: ["all", "demo"]
     # image: almondsh/almond:latest
     build:
-      context: ./docker/almond-with-azurite-certs
+      context: ./docker/almond-with-storage-certs
       dockerfile: Dockerfile
     environment:
       - SPARK_CONF_DEFAULTS=/opt/spark/conf/spark.conf
