@@ -105,7 +105,7 @@ Configure datamesh Azure ADLS storage connection
 
 <property>
   <name>fs.gs.storage.root.url</name>
-  <value>https://gcsserver:4443</value>
+  <value>https://gcsserver</value>
 </property>
 
 <property>

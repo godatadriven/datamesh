@@ -64,12 +64,11 @@ services:
           - devstoreaccount1.blob.azserver
 
   gcsserver:
-    # image: fsouza/fake-gcs-server
+    #image: fsouza/fake-gcs-server
     image: fake-kris:local
     ports:
-      - 4443:4443
-      - 443:4443
-    command: -external-url "https://gcsserver:4443" -cert-location /etc/ssl/certs/ca-certificates.crt -private-key-location /etc/ssl/certs/server.key
+      - 4443:443
+    command: ["-port", "443", "-external-url", "https://gcsserver", "-cert-location", "/etc/ssl/certs/ca-certificates.crt", "-private-key-location", "/etc/ssl/certs/server.key"]
     volumes:
       - ./data/cities:/data/storage-bucket/cities
       - ./data/sales:/data/storage-bucket/sales
@@ -91,6 +90,7 @@ services:
     volumes:
       - ./config/delta/:/opt/docker/conf
       - ./config/ssl/:/opt/docker/ssl
+      - ./config/bin/:/opt/docker/bin
     networks:
       datamesh:
 

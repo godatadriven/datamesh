@@ -100,6 +100,28 @@ password: `changeit`
 
 copy this file (`datamesh_truststore`) to the docker build directory of the almond-with-datamesh-certs container
 
+##### Special keystore for the Hadoop Google library
+
+Since the Hadoop Google libray uses `google.p12` as keystore and I didn't find a way to override that we need to trick the library into using our truststore by renaming it and packing it
+
+```bash
+cd config/delta/certs
+```
+
+```bash
+cp ../../ssl/datamesh_truststore com/google/api/client/googleapis/google.p12
+```
+
+```bash
+keytool -storepasswd -keystore com/google/api/client/googleapis/google.p12
+password `changeit`
+newpassword `notasecret`
+```
+
+```bash
+jar cf fake-gcs-server-cert.jar com
+```
+
 #### Environment
 
 No special environment settings are used.
