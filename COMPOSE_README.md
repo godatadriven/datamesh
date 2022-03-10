@@ -27,32 +27,6 @@ There are 3 volume mounts for the s3 server:
 
 ### Azure
 
-#### SSL setup
-
-##### Create certificate and key
-```bash
-openssl req -newkey rsa:2048 -x509 -nodes -keyout az_private_key.pem -new -out az_server.pem -sha256 -days 365 -addext "subjectAltName=IP:127.0.0.1,DNS.1:devstoreaccount1,DNS.2:devstoreaccount1.azserver,DNS.3:devstoreaccount1.blob.azserver,DNS.4:devstoreaccount1.dfs.azserver" -subj "/C=NL/ST=Utrecht/L=Utrecht/O=Datamesh workshop Ltd/OU=OU/CN=azserver"
-```
-
-##### Check private key
-```bash
-openssl rsa -in az_private_key.pem -check
-```
-
-##### Check cert
-
-```bash
-openssl x509 -in az_server.pem -text -noout
-```
-
-##### Add to Java keystore
-```bash
-keytool -importcert -alias azure_storage_cert -file az_server.pem -keystore datamesh_truststore -storetype PKCS12
-password: `changeit`
-```
-
-copy this file (`datamesh_truststore`) to the docker build directory of the almond-with-storage-certs container
-
 #### Environment
 
 No special environment settings are used.
@@ -67,60 +41,6 @@ No special environment settings are used.
 The az_server.pem and az_private_key.pem config are mounted here.  
 
 ### GCS
-
-#### SSL setup
-
-##### Create certificate and key
-```bash
-openssl req -newkey rsa:2048 -x509 -nodes -keyout gcs_private_key.pem -new -out gcs_server.pem -sha256 -days 365 -addext "subjectAltName=IP:127.0.0.1,DNS.1:gcsserver,DNS.2:storage.googleapis.com" -subj "/C=NL/ST=Utrecht/L=Utrecht/O=Datamesh workshop Ltd/OU=OU/CN=gcsserver"
-```
-
-Combine the 2 server certificates into a single pem file
-```bash
-cat az_server.pem gcs_server.pem > server.pem
-
-```
-
-##### Check private key
-```bash
-openssl rsa -in gcs_private_key.pem -check
-```
-
-##### Check cert
-
-```bash
-openssl x509 -in gcs_server.pem -text -noout
-```
-
-##### Add to Java keystore
-```bash
-keytool -importcert -alias gcs_storage_cert -file gcs_server.pem -keystore datamesh_truststore -storetype PKCS12
-password: `changeit`
-```
-
-copy this file (`datamesh_truststore`) to the docker build directory of the almond-with-datamesh-certs container
-
-##### Special keystore for the Hadoop Google library
-
-Since the Hadoop Google libray uses `google.p12` as keystore and I didn't find a way to override that we need to trick the library into using our truststore by renaming it and packing it
-
-```bash
-cd config/delta/certs
-```
-
-```bash
-cp ../../ssl/datamesh_truststore com/google/api/client/googleapis/google.p12
-```
-
-```bash
-keytool -storepasswd -keystore com/google/api/client/googleapis/google.p12
-password `changeit`
-newpassword `notasecret`
-```
-
-```bash
-jar cf fake-gcs-server-cert.jar com
-```
 
 #### Environment
 
