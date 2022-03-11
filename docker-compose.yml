@@ -80,7 +80,10 @@ services:
 
   delta:
     # profiles: ["all", "demo"]
-    image: deltaio/delta-sharing-server:0.4.0
+    # image: deltaio/delta-sharing-server:0.4.0
+    build:
+      context: ./docker/gcs-patched-delta-sharing
+      dockerfile: Dockerfile
     command: ["--config", "/opt/docker/conf/delta-sharing.yml"]
     ports:
       - 38080:8080
@@ -89,7 +92,6 @@ services:
     volumes:
       - ./config/delta/:/opt/docker/conf
       - ./config/ssl/:/opt/docker/ssl
-      - ./config/bin/:/opt/docker/bin
     networks:
       datamesh:
 
