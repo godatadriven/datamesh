@@ -132,3 +132,11 @@ dmypy.json
 # Misc
 .s3-mount
 .az-mount/workspace/logs/*.log
+
+# Misc SSL
+config/ssl/*.pem
+config/ssl/com/google/api/client/googleapis/google.p12
+config/ssl/datamesh_truststore
+config/ssl/service-account-dummy.json
+config/ssl/*.jar
+docker/almond-with-storage-certs/datamesh_truststore

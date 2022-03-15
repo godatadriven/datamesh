@@ -82,4 +82,55 @@ Configure datamesh Azure ADLS storage connection
   <value>Eby8vdM02xNOcqFlqUwJPLlmEtlCDXJ1OUzFT50uSRZ6IFsuFq2UVErCz4I6tq/K1SZFPTOtr/KBHBeksoGMGw==</value>
 </property>
 -->
+
+<property>
+  <name>fs.gs.impl</name>
+  <value>com.google.cloud.hadoop.fs.gcs.GoogleHadoopFileSystem</value>
+</property>
+
+<property>
+  <name>fs.AbstractFileSystem.gs.impl</name>
+  <value>com.google.cloud.hadoop.fs.gcs.GoogleHadoopFS</value>
+</property>
+
+<property>
+  <name>fs.gs.project.id</name>
+  <value>test-project</value>
+</property>
+
+<property>
+  <name>fs.gs.auth.type</name>
+  <value>SERVICE_ACCOUNT_JSON_KEYFILE</value>
+</property>
+
+<property>
+  <name>fs.gs.storage.root.url</name>
+  <value>https://gcsserver</value>
+</property>
+
+<property>
+  <name>fs.gs.token.server.url</name>
+  <value>http://mockserver:1080/token</value>
+</property>
+
+<property>
+  <name>fs.gs.auth.service.account.enable</name>
+  <value>true</value>
+</property>
+
+<property>
+  <name>fs.gs.auth.service.account.json.keyfile</name>
+  <value>/opt/docker/ssl/service-account-dummy.json</value>
+</property>
+
+<property>
+  <name>fs.gs.inputstream.fast.fail.on.not.found.enable</name>
+  <value>true</value>
+</property>
+
+<property>
+  <name>fs.gs.auth.null.enable</name>
+  <value>true</value>
+</property>
+
 </configuration>

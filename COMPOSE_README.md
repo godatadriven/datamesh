@@ -27,32 +27,6 @@ There are 3 volume mounts for the s3 server:
 
 ### Azure
 
-#### SSL setup
-
-##### Create certificate and key
-```bash
-openssl req -newkey rsa:2048 -x509 -nodes -keyout private_key.pem -new -out server.pem -sha256 -days 365 -addext "subjectAltName=IP:127.0.0.1,DNS.1:devstoreaccount1,DNS.2:devstoreaccount1.azserver,DNS.3:devstoreaccount1.blob.azserver,DNS.4:devstoreaccount1.dfs.azserver" -subj "/C=NL/ST=Utrecht/L=Utrecht/O=Datamesh workshop Ltd/OU=OU/CN=azserver"
-```
-
-##### Check private key
-```bash
-openssl rsa -in private_key.pem -check
-```
-
-##### Check cert
-
-```bash
-openssl x509 -in server.pem -text -noout
-```
-
-##### Add to Java keystore
-```bash
-keytool -importcert -alias azure_storage_cert -file server.pem -keystore azure_truststore
-password: `changeit`
-```
-
-copy this file (`azure_truststore`) to the docker build directory of the almond-with-azurite-certs container
-
 #### Environment
 
 No special environment settings are used.
@@ -64,7 +38,22 @@ No special environment settings are used.
 |  ./.az-mount/workspace | /workspace | Data storage |
 |  ./config | /ssl | SSL certs |
 
-The server.pem and private_key.pem config are mounted here.  
+The az_server.pem and az_private_key.pem config are mounted here.  
+
+### GCS
+
+#### Environment
+
+No special environment settings are used.
+
+#### Volumes
+
+| Directory | Mountpoint | Description |
+| :-------- | :--------- | :---------- |
+|  ./config | /ssl | SSL certs |
+
+The gcs_server.pem and gcs_private_key.pem config are mounted here.  
+
 
 ### delta
 

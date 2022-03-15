@@ -13,6 +13,14 @@ The docker containers and notebooks can also be run locally with docker-compose
 
 ### Run local
 
+#### SSL certificates
+
+Both Azure Blob storage and GCS need a SSL connection enabled. Several certificates, keys and java truststores are needed for the diversity of libraries and programming languages used. 
+
+See SSL_README.md how to (re)generate those certificates
+
+#### Start demo environment
+
 ```bash
 docker-compose up --build
 ```
