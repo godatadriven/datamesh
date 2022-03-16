@@ -43,5 +43,5 @@ make PROJECT=instruqt-godatadriven IMAGE_NAME=instruqt-datamesh-multicloud-vm fo
 #### Publish the track
 
 ```bash
-instruqt track validate && instruqt track publish
+instruqt track validate && instruqt track push
 ```
