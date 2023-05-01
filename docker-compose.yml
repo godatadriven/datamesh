@@ -64,7 +64,7 @@ services:
           - devstoreaccount1.blob.azserver
 
   gcsserver:
-    image: fsouza/fake-gcs-server:1.37
+    image: fsouza/fake-gcs-server:1.44.2
     ports:
       - 4443:443
     command: ["-port", "443", "-external-url", "https://gcsserver", "-cert-location", "/etc/ssl/certs/ca-certificates.crt", "-private-key-location", "/etc/ssl/certs/server.key"]
@@ -101,7 +101,7 @@ services:
       context: ./docker/spark-dataprep
       dockerfile: Dockerfile
       args:
-        - SPARK_VERSION=3.1.1
+        - SPARK_VERSION=3.3.2
     env_file:
       - .s3.env
     environment:
@@ -124,7 +124,7 @@ services:
       context: ./docker/multicloud-spark
       dockerfile: Dockerfile
       args:
-        - SPARK_VERSION=3.1.1
+        - SPARK_VERSION=3.3.2
     environment:
       - SPARK_NO_DAEMONIZE=true
     entrypoint:

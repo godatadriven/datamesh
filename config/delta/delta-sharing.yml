@@ -8,30 +8,42 @@ shares:
     tables:
     - name: "cities"
       location: "s3://demodata/silver/world/cities"
+      cdfEnabled: false
+      id: "00000000-0000-0000-0000-000000000000"
   - name: "sales"
     tables:
     - name: "sample"
       location: "s3://demodata/silver/sales"
+      cdfEnabled: false
+      id: "00000000-0000-0000-0000-000000000001"
 - name: "azurite_demo"
   schemas:
   - name: "azworld"
     tables:
     - name: "cities"
       location: "wasbs://world@devstoreaccount1.blob.azserver:10000/cities/cities"
+      cdfEnabled: false
+      id: "00000000-0000-0000-0000-000000000003"
   - name: "azsales"
     tables:
     - name: "sample"
       location: "wasbs://sales@devstoreaccount1.blob.azserver:10000/sales"
+      cdfEnabled: false
+      id: "00000000-0000-0000-0000-000000000004"
 - name: "gcs_demo"
   schemas:
   - name: "gcsworld"
     tables:
     - name: "cities"
       location: "gs://storage-bucket/cities"
+      cdfEnabled: false
+      id: "00000000-0000-0000-0000-000000000005"
   - name: "gcssales"
     tables:
     - name: "sample"
       location: "gs://storage-bucket/sales"
+      cdfEnabled: false
+      id: "00000000-0000-0000-0000-000000000006"
 # Set the host name that the server will use
 host: "0.0.0.0"
 # Set the port that the server will listen on
