@@ -155,11 +155,10 @@ services:
     # profiles: ["all", "demo"]
     # image: almondsh/almond:latest
     build:
-      context: ./docker/almond-with-storage-certs
+      context: ./docker/jupyter-spark
       dockerfile: Dockerfile
     environment:
-      - SPARK_CONF_DEFAULTS=/opt/spark/conf/spark.conf
-      - JUPYTER_ENABLE_LAB=true
+      - SPARK_CONF_DEFAULTS=/usr/local/spark/conf/spark-defaults.conf
       - SSL_CERT_FILE=/opt/spark/ssl/server.pem
     command:
       - "start-notebook.sh"
@@ -171,7 +170,7 @@ services:
     volumes:
       - ./notebooks/:/home/jovyan/work/notebooks/
       - ./config/sharing/:/opt/delta/conf/
-      - ./config/spark/:/opt/spark/conf/
+      - ./config/spark/spark.conf:/usr/local/spark/conf/spark-defaults.conf
       - ./config/ssl:/opt/spark/ssl
     networks:
       datamesh:
