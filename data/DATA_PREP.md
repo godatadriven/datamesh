@@ -14,24 +14,24 @@ docker-compose up --build
 We have the world cities data available in csv format. To enable delta-sharing to share data we first need to convert this csv to the delta format.
 
 ```bash
-docker exec -ti datamesh_sparkprepare_1 /bin/bash
+docker exec -ti datamesh-sparkprepare-1 /bin/bash
 ```
 
 ```bash
-spark-shell --packages io.delta:delta-core_2.12:2.3.0,io.delta:delta-sharing-spark_2.12:0.6.3 --conf spark.hadoop.fs.s3a.access.key=${AWS_ACCESS_KEY_ID} --conf spark.hadoop.fs.s3a.secret.key=${AWS_SECRET_ACCESS_KEY} --conf spark.hadoop.fs.s3a.impl=org.apache.hadoop.fs.s3a.S3AFileSystem --conf spark.hadoop.fs.s3a.endpoint="${AWS_SERVER}:${AWS_PORT}" --conf spark.hadoop.fs.s3a.connection.ssl.enabled=false --conf spark.hadoop.fs.s3a.path.style.access=true --conf spark.hadoop.fs.s3.impl=org.apache.hadoop.fs.s3a.S3AFileSystem
+spark-shell --packages io.delta:delta-core_2.12:2.3.0,io.delta:delta-sharing-spark_2.12:0.6.3,com.amazonaws:aws-java-sdk-bundle:1.12.459,org.apache.hadoop:hadoop-aws:3.3.2,org.apache.hadoop:hadoop-client-api:3.3.2 --conf spark.hadoop.fs.s3a.access.key=${AWS_ACCESS_KEY_ID} --conf spark.hadoop.fs.s3a.secret.key=${AWS_SECRET_ACCESS_KEY} --conf spark.hadoop.fs.s3a.impl=org.apache.hadoop.fs.s3a.S3AFileSystem --conf spark.hadoop.fs.s3a.endpoint="${AWS_SERVER}:${AWS_PORT}" --conf spark.hadoop.fs.s3a.connection.ssl.enabled=false --conf spark.hadoop.fs.s3a.path.style.access=true --conf spark.hadoop.fs.s3.impl=org.apache.hadoop.fs.s3a.S3AFileSystem --conf spark.databricks.delta.changeDataFeed.timestampOutOfRange.enabled=true
 ```
 
 ```spark
 val citiesDF = spark.read.options(Map("header"->"true", "inferSchema"->"true")).csv("s3://demodata/rawdata/world/cities/sample.csv")
 citiesDF.show(truncate=false)
 citiesDF.printSchema()
-citiesDF.write.format("delta").save("s3://demodata/silver/world/cities")
+citiesDF.write.format("delta").save("s3://demodata/cdf/silver/world/cities")
 ```
 
 To extract this delta table to the local file system we can copy it from s3 to a mounted volume
 
 ```bash
-docker exec -ti datamesh_s3server_1 /bin/bash
+docker exec -ti datamesh-s3server-1 /bin/bash
 ```
 
 ```bash
@@ -81,7 +81,7 @@ spark.read.format("delta").load("s3://demodata/silver/sales/").where("month=5").
 To extract also this delta table to the local file system we can copy it from s3 to a mounted volume
 
 ```bash
-docker exec -ti datamesh_s3server_1 /bin/bash
+docker exec -ti datamesh-s3server-1 /bin/bash
 ```
 
 ```bash
